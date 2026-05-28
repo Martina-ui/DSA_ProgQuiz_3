@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <iomanip>
+using namespace std;
 
 class Node {
     public:
@@ -41,6 +42,69 @@ Node* insertEnd(Node* head, int key)
 
 float interQuartile(Node* head)
 {
-    //code here
-    return 0.0;   
-}
+    Node* p1 = head;
+    Node* p2 = head;
+    Node* p3 = head;
+    Node* p4 = head;
+    int count = 0;
+
+    while (p4->next != nullptr) {
+      p4 = p4->next;
+      if (count % 2 == 0) {
+        p2 = p2->next;
+      }
+      if (count % 4 == 0 && count != 0) {
+        p1 = p1->next;
+      }
+      if (count % 4 != 0 && count != 0) {
+        p3 = p3->next;
+      }
+      count++;
+    }
+  count++;
+  float Q1;
+  float Q3;
+  float IQR;
+    if (count % 4 == 0) { 
+      if (p1->next) {
+        Q1 = (static_cast<float>(p1->value) + static_cast<float>(p1->next->value))/2.0; 
+      } else {
+        Q1 = static_cast<float>(p1->value);
+      }
+      if (p3->next) {
+        Q3 = (static_cast<float>(p3->value) + static_cast<float>(p3->next->value))/2.0; 
+      } else {
+        Q3 = static_cast<float>(p3->value);
+      }
+    }
+    if (count % 4 == 1) {
+      if (p1->next) {
+        Q1 = (static_cast<float>(p1->value) + static_cast<float>(p1->next->value))/2.0; 
+      } else {
+        Q1 = static_cast<float>(p1->value);
+      }
+      if (p3->next) {
+        Q3 = (static_cast<float>(p3->value) + static_cast<float>(p3->next->value))/2.0; 
+      } else {
+        Q3 = static_cast<float>(p3->value);
+      }
+    }
+    if (count % 4 == 2) {
+      Q1 = static_cast<float>(p1->value);
+      if (p3->next) {
+        Q3 = static_cast<float>(p3->next->value); 
+      } else {
+        Q3 = static_cast<float>(p3->value);
+      }
+    }
+    if (count % 4 == 3) {
+      Q1 = static_cast<float>(p1->value);
+      if (p3->next) {
+        Q3 = static_cast<float>(p3->next->value); 
+      } else {
+        Q3 = static_cast<float>(p3->value);
+      }
+    }
+    IQR = Q3 - Q1;
+    return IQR;   
+}   
